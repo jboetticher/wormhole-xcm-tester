@@ -1,9 +1,0 @@
-.idea
-node_modules
-lib
-!relayer-engine/packages/relayer-plugin-interface/lib
-npm-debug.log
-.vscode
-.nyc
-.env
-.DS_Store
