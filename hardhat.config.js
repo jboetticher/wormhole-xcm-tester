@@ -5,6 +5,11 @@ require('hardhat-deploy');
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.18",
+  namedAccounts: {
+    deployer: {
+      default: 0,    // wallet address 0, of the mnemonic in .env
+    },
+  },
   networks: {
     ethereum: {
       url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", // public infura endpoint

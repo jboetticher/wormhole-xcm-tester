@@ -5,15 +5,14 @@ import "./wormhole/ITokenBridge.sol";
 
 contract TokenTransferTest {
     ITokenBridge tbridge;
-    address immutable token;
 
     constructor(ITokenBridge _tbridge) {
         tbridge = _tbridge;
     }
 
-    function testTransfer(bytes32 destination) external {
+    function testTransfer(bytes32 destination) payable external {
         // Transfer 1 ether to moonbase alpha
-        tbridge.wrapAndTransferETHWithPayload{value: 1 ether}(
+        tbridge.wrapAndTransferETHWithPayload{value: msg.value}(
             16, // Moonbase Alpha / Moonbeam
             destination, // Destination in padded bytes32 format
             1, // Nonce
