@@ -2,6 +2,8 @@ task("sendPayload", "Sends a token with a payload.", sendPayload)
     .addOptionalParam("p", "Payload, if you want to add one.")
     .addOptionalParam("d", "Destination, if you want to set one other than the default.");
 
+const ETHER_TO_SEND = "0.2";
+
 async function sendPayload(taskArgs, hre) {
     // get local contract instance
     const transferer = await ethers.getContract("TokenTransferTest")
@@ -22,14 +24,14 @@ async function sendPayload(taskArgs, hre) {
         let payload = hre.utils.toUtf8Bytes(taskArgs["p"]);
 
         console.log(`TokenTransferTest.testTransferWithPayload(${dest}, ${taskArgs["p"]})`);
-        let tx = await (await transferer.testTransferWithPayload(dest, payload, { value: hre.ethers.utils.parseEther("1") })).wait()
+        let tx = await (await transferer.testTransferWithPayload(dest, payload, { value: hre.ethers.utils.parseEther(ETHER_TO_SEND) })).wait()
 
         console.log(tx);
         console.log(tx.hash);
     }
     else {
         console.log(`TokenTransferTest.testTransfer(${dest})`);
-        let tx = await (await transferer.testTransfer(dest, { value: hre.ethers.utils.parseEther("1") })).wait()
+        let tx = await (await transferer.testTransfer(dest, { value: hre.ethers.utils.parseEther(ETHER_TO_SEND) })).wait()
 
         console.log(tx.transactionHash);
     }

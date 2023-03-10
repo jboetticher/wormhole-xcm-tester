@@ -1,13 +1,27 @@
-# Sample Hardhat Project
+# Deploy Test Smart Contract
+Probably unnecessary since it's already deployed on Fantom TestNet, but in case you need to deploy again:
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+```
+npx hardhat deploy --network fantom-testnet
+```
 
-Try running some of the following tasks:
+# Send Transaction
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
+By default it sends value to the `0x0000000000000000000000000000000000000815` address with a JSON encoded XCM string.
+
+```
+npx hardhat sendPayload --network fantom-testnet
+```
+
+You can also include the `--d` flag to specify the destination address or the `--p` flag to specify the string payload.
+
+# Run Relayer
+
+Doesn't relay for now, just prints out the VAA bytes in a hex format. Which you probably need.
+
+```
+cd relayer
+yarn testnet-spy
+yarn redis
+yarn start
 ```

@@ -5,27 +5,10 @@ import {
 } from "../plugins/dummy_plugin/src/plugin";
 
 async function main() {
-  // TODO: make this change based on testnet vs mainnet
-  const moonbaseDeployment: any = (await relayerEngine.loadFileAndParseToObject(
-    `../send_message/deployments/moonbase/TokenTransferTest.json`,
-  ));
-  const fantomDeployment: any = (await relayerEngine.loadFileAndParseToObject(
-    `../send_message/deployments/fantom-testnet/TokenTransferTest.json`,
-  ));
-
-  // Construct config instead of reading it from the config folder
-  let pluginConfig: DummyPluginConfig = {
-    spyServiceFilters: [
-      {
-        "chainId": 10,
-        "emitterAddress": moonbaseDeployment.address
-      },
-      {
-        "chainId": 16,
-        "emitterAddress": fantomDeployment.address
-      },
-    ]
-  };
+  // load plugin config
+  const pluginConfig = (await relayerEngine.loadFileAndParseToObject(
+    `./plugins/dummy_plugin/config/${relayerEngine.EnvType.DEVNET.toLowerCase()}.json`,
+  )) as DummyPluginConfig;
 
   const mode =
     (process.env.RELAYER_ENGINE_MODE?.toUpperCase() as relayerEngine.Mode) ||

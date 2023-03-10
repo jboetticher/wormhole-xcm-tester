@@ -4,11 +4,11 @@
   "spyServiceFilters": [
     {
       "chainId": 10,
-      "emitterAddress": "0x0000000000000000000000000000000000000815"
+      "emitterAddress": "0x599CEa2204B4FaECd584Ab1F2b6aCA137a0afbE8"
     },
     {
       "chainId": 16,
-      "emitterAddress": "0x0000000000000000000000000000000000000815"
+      "emitterAddress": "0xbc976D4b9D57E57c3cA52e1Fd136C45FF7955A96"
     }
   ]
 }
