@@ -2,6 +2,7 @@
 Probably unnecessary since it's already deployed on Fantom TestNet, but in case you need to deploy again:
 
 ```
+cd send_message
 npx hardhat deploy --network fantom-testnet
 ```
 
@@ -10,6 +11,7 @@ npx hardhat deploy --network fantom-testnet
 By default it sends value to the `0x0000000000000000000000000000000000000815` address with a JSON encoded XCM string.
 
 ```
+cd send_message
 npx hardhat sendPayload --network fantom-testnet
 ```
 
