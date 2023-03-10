@@ -9,8 +9,8 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.9.0",
-    "relayer-engine": "file:../../../.."
+    "@certusone/wormhole-sdk": "file:../../node_modules/@certusone/wormhole-sdk",
+    "relayer-engine": "file:../../node_modules/relayer-engine"
   },
   "author": "Joe Howarth",
   "license": "ISC",

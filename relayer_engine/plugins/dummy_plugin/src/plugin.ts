@@ -82,6 +82,16 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     | undefined
   > {
     this.logger.debug(`VAA hash: ${vaa.hash.toString("base64")}`);
+    this.logger.debug(`${vaa.emitterAddress}`)
+    this.logger.debug(`${vaa.emitterChain}`)
+    this.logger.debug(`${vaa.bytes}}`)
+    return;
+
+
+
+    // TODO: filter for the destination ughhh
+
+
 
     // Example of reading and updating a key exclusively
     // This allows multiple listeners to run in separate processes safely

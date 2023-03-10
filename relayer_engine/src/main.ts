@@ -23,27 +23,24 @@ async function main() {
       {
         "chainId": 16,
         "emitterAddress": fantomDeployment.address
-      }
+      },
     ]
   };
 
-  console.log('\nPlugin Running with Filters: ');
-  console.log(pluginConfig.spyServiceFilters);
+  const mode =
+    (process.env.RELAYER_ENGINE_MODE?.toUpperCase() as relayerEngine.Mode) ||
+    relayerEngine.Mode.BOTH;
 
-  // const mode =
-  //   (process.env.RELAYER_ENGINE_MODE?.toUpperCase() as relayerEngine.Mode) ||
-  //   relayerEngine.Mode.BOTH;
+  // run relayer engine
+  await relayerEngine.run({
+    configs: "./relayer-engine-config",
+    plugins: {
+      [DummyPlugin.pluginName]: (engineConfig, logger) =>
+        new DummyPlugin(engineConfig, pluginConfig, logger),
+    },
 
-  // // run relayer engine
-  // await relayerEngine.run({
-  //   configs: "./relayer-engine-config",
-  //   plugins: {
-  //     [DummyPlugin.pluginName]: (engineConfig, logger) =>
-  //       new DummyPlugin(engineConfig, pluginConfig, logger),
-  //   },
-
-  //   mode,
-  // });
+    mode,
+  });
 }
 
 // allow main to be an async function and block until it rejects or resolves
