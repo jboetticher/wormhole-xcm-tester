@@ -6,6 +6,7 @@ import "./wormhole/ITokenBridge.sol";
 // NOTE: don't rename, keep "TokenTransferTest". Relayer depends on this name
 contract TokenTransferTest {
     ITokenBridge tbridge;
+    event WormholeTransferCompleted(bytes);
 
     constructor(ITokenBridge _tbridge) {
         tbridge = _tbridge;
@@ -23,9 +24,9 @@ contract TokenTransferTest {
         );
     }
 
-    function testTransferWithPayload(bytes32 destination, bytes memory payload) external {
+    function testTransferWithPayload(bytes32 destination, bytes memory payload) payable external {
         // Transfer 1 ether to moonbase alpha
-        tbridge.wrapAndTransferETHWithPayload{value: 1 ether}(
+        tbridge.wrapAndTransferETHWithPayload{value: msg.value}(
             16, // Moonbase Alpha / Moonbeam
             destination, // Destination in padded bytes32 format
             1, // Nonce
@@ -34,6 +35,7 @@ contract TokenTransferTest {
     }
 
     function wormholeTransferERC20(bytes memory payload) external {
-        tbridge.completeTransferWithPayload(payload);
+        bytes memory payload = tbridge.completeTransferWithPayload(payload);
+        emit WormholeTransferCompleted(payload);
     }
 }

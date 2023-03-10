@@ -21,13 +21,13 @@ async function sendPayload(taskArgs, hre) {
 
     if (taskArgs["p"]) {
         // Converts a string to its payload bytes form
-        let payload = hre.utils.toUtf8Bytes(taskArgs["p"]);
+        let payload = "0x" + ascii_to_hexa(taskArgs["p"]);
+        console.log(payload)
 
         console.log(`TokenTransferTest.testTransferWithPayload(${dest}, ${taskArgs["p"]})`);
         let tx = await (await transferer.testTransferWithPayload(dest, payload, { value: hre.ethers.utils.parseEther(ETHER_TO_SEND) })).wait()
-
-        console.log(tx);
-        console.log(tx.hash);
+        
+        console.log(tx.transactionHash);
     }
     else {
         console.log(`TokenTransferTest.testTransfer(${dest})`);
@@ -35,4 +35,13 @@ async function sendPayload(taskArgs, hre) {
 
         console.log(tx.transactionHash);
     }
+}
+
+function ascii_to_hexa(str) {
+    var arr1 = [];
+    for (var n = 0, l = str.length; n < l; n++) {
+        var hex = Number(str.charCodeAt(n)).toString(16);
+        arr1.push(hex);
+    }
+    return arr1.join('');
 }
