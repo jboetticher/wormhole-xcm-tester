@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "./wormhole/ITokenBridge.sol";
 
+// NOTE: don't rename, keep "TokenTransferTest". Relayer depends on this name
 contract TokenTransferTest {
     ITokenBridge tbridge;
 
@@ -30,5 +31,9 @@ contract TokenTransferTest {
             1, // Nonce
             payload // Payload
         );
+    }
+
+    function wormholeTransferERC20(bytes memory payload) external {
+        tbridge.completeTransferWithPayload(payload);
     }
 }

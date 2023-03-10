@@ -15,20 +15,18 @@
   "wormholeRpc": "https://wormhole-v2-testnet-api.certus.one",
   "supportedChains": [
     {
-      "chainId": 1,
-      "chainName": "Solana Devnet",
-      "nodeUrl": "https://api.devnet.solana.com",
-      "tokenBridgeAddress": "DZnkkTmCiFWfYTfT41X3Rd1kDgozqzxWaHqsw6W4x2oe",
-      "bridgeAddress": "3u8hJUVTA4jH1wYAyUur7FFZVQ8H635K3tSHHF4ssjQ5",
-      "wrappedAsset": "So11111111111111111111111111111111111111112"
+      "chainId": 10,
+      "chainName": "Fantom Testnet",
+      "nodeUrl": "https://fantom-testnet.blastapi.io/1c34598d-e68b-45ba-9a6f-62e6e4323691",
+      "bridgeAddress": "0x1BB3B4119b7BA9dfad76B0545fb3F531383c3bB7",
+      "tokenBridgeAddress": "0x599CEa2204B4FaECd584Ab1F2b6aCA137a0afbE8"
     },
     {
-      "chainId": 6,
-      "chainName": "Fuji",
-      "nodeUrl": "https://api.avax-test.network/ext/bc/C/rpc",
-      "tokenBridgeAddress": "0x61E44E506Ca5659E6c0bba9b678586fA2d729756",
-      "bridgeAddress": "0x7bbcE28e64B3F8b84d876Ab298393c38ad7aac4C",
-      "wrappedAsset": "0x1D308089a2D1Ced3f1Ce36B1FcaF815b07217be3"
+      "chainId": 16,
+      "chainName": "Moonbase Alpha",
+      "nodeUrl": "https://rpc.api.moonbase.moonbeam.network",
+      "bridgeAddress": "0xa5B7D85a8f27dd7907dc8FdC21FA5657D5E2F901",
+      "tokenBridgeAddress": "0xbc976D4b9D57E57c3cA52e1Fd136C45FF7955A96"
     }
   ]
 }

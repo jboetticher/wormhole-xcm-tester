@@ -54,23 +54,22 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     console.log(`Config: ${JSON.stringify(engineConfig, undefined, 2)}`);
     console.log(`Plugin Env: ${JSON.stringify(pluginConfigRaw, undefined, 2)}`);
 
-    this.pluginConfig = DummyPlugin.validateConfig(pluginConfigRaw);
-  }
-
-  // Validate the plugin's config
-  static validateConfig(
-    pluginConfigRaw: Record<string, any>,
-  ): DummyPluginConfig {
-    return {
+    this.pluginConfig = {
       spyServiceFilters:
         pluginConfigRaw.spyServiceFilters &&
         assertArray(pluginConfigRaw.spyServiceFilters, "spyServiceFilters"),
     };
   }
 
+  // =============================== 1. Filter Messages ====================================
+
+  // Filters are automatically inserted by what's stored in ../config/devnet.json 
+  // These are the built-in large filters. You can do more filtering in consumeEvent
   getFilters(): ContractFilter[] {
     return this.pluginConfig.spyServiceFilters;
   }
+
+  // ============================ 2. Consume Events from Spy ===============================
 
   async consumeEvent(
     vaa: ParsedVaaWithBytes,
@@ -106,6 +105,8 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
       },
     };
   }
+
+  // ============================ 3. Handle Workflows from Events ===============================
 
   async handleWorkflow(
     workflow: Workflow,
