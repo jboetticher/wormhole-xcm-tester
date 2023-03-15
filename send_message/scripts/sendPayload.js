@@ -1,6 +1,8 @@
 task("sendPayload", "Sends a token with a payload.", sendPayload)
     .addOptionalParam("p", "Payload, if you want to add one.")
     .addOptionalParam("d", "Destination, if you want to set one other than the default.");
+task("receivePayload", "Receives a token payload.", receivePayload)
+    .addParam("p", "VAA payload")
 
 const ETHER_TO_SEND = "0.2";
 
@@ -26,7 +28,7 @@ async function sendPayload(taskArgs, hre) {
 
         console.log(`TokenTransferTest.testTransferWithPayload(${dest}, ${taskArgs["p"]})`);
         let tx = await (await transferer.testTransferWithPayload(dest, payload, { value: hre.ethers.utils.parseEther(ETHER_TO_SEND) })).wait()
-        
+
         console.log(tx.transactionHash);
     }
     else {
@@ -35,6 +37,23 @@ async function sendPayload(taskArgs, hre) {
 
         console.log(tx.transactionHash);
     }
+}
+
+async function receivePayload(taskArgs, hre) {
+    // get local contract instance
+    const transferer = await ethers.getContract("TokenTransferTest")
+    console.log(`[source] TokenTransferTest.address: ${transferer.address}`)
+
+    // Format payload
+    let payload = taskArgs["p"];
+    if(!payload.startsWith("0x")) {
+        payload = "0x" + payload;
+    }
+
+    console.log(`TokenTransferTest.wormholeTransferERC20(${payload})`);
+    let tx = await (await transferer.wormholeTransferERC20(payload)).wait()
+
+    console.log(tx.transactionHash);
 }
 
 function ascii_to_hexa(str) {

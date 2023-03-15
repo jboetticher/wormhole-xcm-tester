@@ -85,7 +85,8 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     this.logger.debug(`VAA hash: ${vaa.hash.toString("base64")}`);
 
     this.logger.debug(`VAA bytes:`);
-    this.logger.debug(`${vaa.bytes.toString('hex')}`);
+    this.logger.debug(`${vaa.bytes.toString("base64")}`);
+    this.logger.debug(`${vaa.bytes.toString("hex")}`);
 
     // Filtering for the destination
     let payload: string = vaa.payload.toString('hex');
