@@ -141,7 +141,7 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
       f: async (wallet, chainId) => {
 
         const contract = new ethers.Contract("0x0000000000000000000000000000000000000815", abi, wallet.wallet);
-        const result = await contract.processMyMessage(vaa);
+        const result = await contract.wormholeTransferERC20(vaa);
         this.logger.info(result);
       },
     });
