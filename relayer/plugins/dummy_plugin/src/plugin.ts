@@ -15,6 +15,7 @@ import * as wh from "@certusone/wormhole-sdk";
 import { Logger } from "winston";
 import { parseVaa } from "@certusone/wormhole-sdk";
 import { ethers } from "ethers";
+import * as abi from "../src/precompile-abi.json";
 
 export interface DummyPluginConfig {
   spyServiceFilters: { chainId: wh.ChainId; emitterAddress: string }[];
@@ -85,13 +86,16 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     this.logger.debug(`VAA hash: ${vaa.hash.toString("base64")}`);
 
     this.logger.debug(`VAA bytes:`);
-    this.logger.debug(`${vaa.bytes.toString("base64")}`);
     this.logger.debug(`${vaa.bytes.toString("hex")}`);
 
     // Filtering for the destination
     let payload: string = vaa.payload.toString('hex');
     let to = payload.substring(134, 198);
+    let toChain = payload.substring(198, 202);
     if (to !== "0000000000000000000000000000000000000000000000000000000000000815") return;
+    if (toChain !== "0010") return;
+
+    // TODO: also filter for the destination chainID to == wh.CHAIN_ID_MOONBEAM
 
     // Example of reading and updating a key exclusively
     // This allows multiple listeners to run in separate processes safely
@@ -108,7 +112,7 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
       },
     );
 
-    // For now, we don't really need a transaction.
+    // TODO: For now, we don't need a transaction because GMP precompile isn't finished/live
     return;
 
     return {
@@ -131,33 +135,17 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
 
     const { vaa, count } = this.parseWorkflowPayload(workflow);
 
-    // TODO: do a transaction with 0x0000000000000000000000000000000000000815 at some point
-
     // Dummy job illustrating how to run an action on the wallet worker pool
-    const pubkey = await execute.onEVM({
-      chainId: 6, // EVM chain to get a wallet for
+   await execute.onEVM({
+      chainId: wh.CHAIN_ID_MOONBEAM,
       f: async (wallet, chainId) => {
-        const pubkey = wallet.wallet.address;
-        this.logger.info(
-          `Inside action, have wallet pubkey ${pubkey} on chain ${chainId}`,
-          { pubKey: pubkey, chainId: chainId },
-        );
-        this.logger.info(`Also have parsed vaa. seq: ${vaa.sequence}`, {
-          vaa: vaa,
-        });
-        return pubkey;
+
+        const contract = new ethers.Contract("0x0000000000000000000000000000000000000815", abi, wallet.wallet);
+        const result = await contract.processMyMessage(vaa);
+        this.logger.info(result);
       },
     });
 
-    // Simulate different processing times for metrics
-    await sleep(randomInt(0, 4000));
-
-    let PROBABILITY_OF_FAILURE = 0.01;
-    if (Math.random() < PROBABILITY_OF_FAILURE) {
-      throw new Error("Simulating workflow failure");
-    }
-
-    this.logger.info(`Result of action on fuji ${pubkey}, Count: ${count}`);
   }
 
   parseWorkflowPayload(workflow: Workflow): WorkflwoPayloadDeserialized {
