@@ -8,7 +8,7 @@ npx hardhat deploy --network fantom-testnet
 
 # Send Transaction
 
-By default it sends value to the `0x0000000000000000000000000000000000000815` address with a JSON encoded XCM string.
+By default it sends value to the `0x0000000000000000000000000000000000000816` address with a JSON encoded XCM string.
 
 ```
 cd send_message

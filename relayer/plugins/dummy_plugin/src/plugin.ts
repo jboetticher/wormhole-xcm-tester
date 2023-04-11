@@ -92,7 +92,7 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     let payload: string = vaa.payload.toString('hex');
     let to = payload.substring(134, 198);
     let toChain = payload.substring(198, 202);
-    if (to !== "0000000000000000000000000000000000000000000000000000000000000815") return;
+    if (to !== "0000000000000000000000000000000000000000000000000000000000000816") return;
     if (toChain !== "0010") return;
 
     // TODO: also filter for the destination chainID to == wh.CHAIN_ID_MOONBEAM
@@ -139,8 +139,7 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
    await execute.onEVM({
       chainId: wh.CHAIN_ID_MOONBEAM,
       f: async (wallet, chainId) => {
-
-        const contract = new ethers.Contract("0x0000000000000000000000000000000000000815", abi, wallet.wallet);
+        const contract = new ethers.Contract("0x0000000000000000000000000000000000000816", abi, wallet.wallet);
         const result = await contract.wormholeTransferERC20(vaa);
         this.logger.info(result);
       },

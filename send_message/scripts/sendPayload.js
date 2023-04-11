@@ -13,7 +13,7 @@ async function sendPayload(taskArgs, hre) {
 
     // Format address for bytes32
     let dest = taskArgs["d"];
-    if (!dest) dest = "0x0000000000000000000000000000000000000000000000000000000000000815";
+    if (!dest) dest = "0x0000000000000000000000000000000000000000000000000000000000000816";
     else if (dest.startsWith("0x") && dest.length == 42) {
         dest = "0x000000000000000000000000" + dest.substring(2);
     }
