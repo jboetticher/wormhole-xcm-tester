@@ -15,7 +15,7 @@ import * as wh from "@certusone/wormhole-sdk";
 import { Logger } from "winston";
 import { parseVaa } from "@certusone/wormhole-sdk";
 import { ethers } from "ethers";
-import * as abi from "../src/precompile-abi.json";
+import * as abi from "./precompile-abi.json";
 
 export interface DummyPluginConfig {
   spyServiceFilters: { chainId: wh.ChainId; emitterAddress: string }[];
@@ -25,7 +25,6 @@ export interface DummyPluginConfig {
 // This is what is returned by the consumeEvent and received by handleWorkflow
 interface WorkflowPayload {
   vaa: string; // base64
-  count: number;
 }
 
 // Deserialized version of WorkloadPayload
@@ -33,9 +32,6 @@ interface WorkflwoPayloadDeserialized {
   vaa: ParsedVaaWithBytes;
   count: number;
 }
-
-const randomInt = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
 
 export class DummyPlugin implements Plugin<WorkflowPayload> {
   // configuration fields used by engine
@@ -95,29 +91,8 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     if (to !== "0000000000000000000000000000000000000000000000000000000000000816") return;
     if (toChain !== "0010") return;
 
-    // TODO: also filter for the destination chainID to == wh.CHAIN_ID_MOONBEAM
-
-    // Example of reading and updating a key exclusively
-    // This allows multiple listeners to run in separate processes safely
-    const count = await stagingArea.withKey(
-      ["counter"],
-      async ({ counter }) => {
-        this.logger.debug(`Original counter value ${counter}`);
-        counter = (counter ? counter : 0) + 1;
-        this.logger.debug(`Counter value after update ${counter}`);
-        return {
-          newKV: { counter },
-          val: counter,
-        };
-      },
-    );
-
-    // TODO: For now, we don't need a transaction because GMP precompile isn't finished/live
-    return;
-
     return {
       workflowData: {
-        count,
         vaa: vaa.bytes.toString("base64"),
       },
     };
