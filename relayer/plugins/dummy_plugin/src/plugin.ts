@@ -6,7 +6,6 @@ import {
   ParsedVaaWithBytes,
   Plugin,
   Providers,
-  sleep,
   StagingAreaKeyLock,
   Workflow,
   WorkflowOptions,
@@ -24,7 +23,7 @@ export interface DummyPluginConfig {
 // Serialized version of WorkloadPayload
 // This is what is returned by the consumeEvent and received by handleWorkflow
 interface WorkflowPayload {
-  vaa: string; // base64
+  vaa: string; // hex
 }
 
 // Deserialized version of WorkloadPayload
@@ -79,11 +78,6 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
       }
     | undefined
   > {
-    this.logger.debug(`VAA hash: ${vaa.hash.toString("base64")}`);
-
-    this.logger.debug(`VAA bytes:`);
-    this.logger.debug(`${vaa.bytes.toString("hex")}`);
-
     // Filtering for the destination
     let payload: string = vaa.payload.toString('hex');
     let to = payload.substring(134, 198);
@@ -91,10 +85,12 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     if (to !== "0000000000000000000000000000000000000000000000000000000000000816") return;
     if (toChain !== "0010") return;
 
+    this.logger.debug(`Adding VAA to queue with hash: ${vaa.hash.toString("base64")}`);
+
     return {
       workflowData: {
-        vaa: vaa.bytes.toString("base64"),
-      },
+        vaa: vaa.bytes.toString("hex")
+      }
     };
   }
 
@@ -105,31 +101,21 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     providers: Providers,
     execute: ActionExecutor,
   ): Promise<void> {
-    this.logger.info("Got workflow", { workflowId: workflow.id });
+    this.logger.info("Got workflow " + workflow.id);
     this.logger.debug(JSON.stringify(workflow));
 
-    const { vaa } = this.parseWorkflowPayload(workflow);
+    const { vaa } = workflow.data;
 
     // Dummy job illustrating how to run an action on the wallet worker pool
    await execute.onEVM({
       chainId: wh.CHAIN_ID_MOONBEAM,
       f: async (wallet, chainId) => {
         const gmpPrecompile = new ethers.Contract("0x0000000000000000000000000000000000000816", abi, wallet.wallet);
-        const result = await gmpPrecompile.wormholeTransferERC20(vaa);
-        this.logger.info(result);
+        this.logger.info("Beginning MRL Relay with VAA: " + vaa);
+        const result = await gmpPrecompile.wormholeTransferERC20("0x" + vaa);
+        this.logger.debug("Transaction Result: " + JSON.stringify(result));
       },
     });
-
-  }
-
-  parseWorkflowPayload(workflow: Workflow): WorkflwoPayloadDeserialized {
-    const bytes = Buffer.from(workflow.data.vaa, "base64");
-    const vaa = parseVaa(bytes) as ParsedVaaWithBytes;
-    vaa.bytes = bytes;
-    return {
-      vaa,
-      count: workflow.data.count as number,
-    };
   }
 }
 
