@@ -33,3 +33,7 @@ cd relayer
 yarn redis
 yarn start
 ```
+
+## TODO
+
+Test and add the rest of the Token Bridge contracts to the devnet config.

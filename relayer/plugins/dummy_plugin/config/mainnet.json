@@ -3,8 +3,84 @@
   "shouldRest": false,
   "spyServiceFilters": [
     {
+      "chainId": 1,
+      "emitterAddress": "wormDTUJ6AWPNvk59vGQbDvGJmqbDTdgWgAqcLBCgUb"
+    },
+    {
+      "chainId": 2,
+      "emitterAddress": "0x3ee18B2214AFF97000D974cf647E7C347E8fa585"
+    },
+    {
+      "chainId": 3,
+      "emitterAddress": "terra10nmmwe8r3g99a9newtqa7a75xfgs2e8z87r2sf"
+    },
+    {
+      "chainId": 4,
+      "emitterAddress": "0xB6F6D86a8f9879A9c87f643768d9efc38c1Da6E7"
+    },
+    {
+      "chainId": 6,
+      "emitterAddress": "0x0e082F06FF657D94310cB8cE8B0D9a04541d8052"
+    },
+    {
+      "chainId": 8,
+      "emitterAddress": "842126029"
+    },
+    {
+      "chainId": 9,
+      "emitterAddress": "0x51b5123a7b0F9b2bA265f9c4C8de7D78D52f510F"
+    },
+    {
       "chainId": 10,
-      "emitterAddress": "0x599CEa2204B4FaECd584Ab1F2b6aCA137a0afbE8"
+      "emitterAddress": "0x7C9Fc5741288cDFdD83CeB07f3ea7e22618D79D2"
+    },
+    {
+      "chainId": 11,
+      "emitterAddress": "0xae9d7fe007b3327AA64A32824Aaac52C42a6E624"
+    },
+    {
+      "chainId": 12,
+      "emitterAddress": "0xae9d7fe007b3327AA64A32824Aaac52C42a6E624"
+    },
+    {
+      "chainId": 13,
+      "emitterAddress": "0x5b08ac39EAED75c0439FC750d9FE7E1F9dD0193F"
+    },
+    {
+      "chainId": 14,
+      "emitterAddress": "0x796Dff6D74F3E27060B71255Fe517BFb23C93eed"
+    },
+    {
+      "chainId": 15,
+      "emitterAddress": "contract.portalbridge.near"
+    },
+    {
+      "chainId": 16,
+      "emitterAddress": "0xb1731c586ca89a23809861c6103f0b96b3f57d92"
+    },
+    {
+      "chainId": 18,
+      "emitterAddress": "terra153366q50k7t8nn7gec00hg66crnhkdggpgdtaxltaq6xrutkkz3s992fw9"
+    },
+    {
+      "chainId": 19,
+      "emitterAddress": "inj1ghd753shjuwexxywmgs4xz7x2q732vcnxxynfn"
+    },
+    {
+      "chainId": 22,
+      "emitterAddress": "0x576410486a2da45eee6c949c995670112ddf2fbeedab20350d506328eefc9d4f"
+    },
+    {
+      "chainId": 23,
+      "emitterAddress": "0x0b2402144Bb366A632D14B83F244D2e0e21bD39c"
+    },
+    {
+      "chainId": 24,
+      "emitterAddress": "0x1D68124e65faFC907325e3EDbF8c4d84499DAa8b"
+    },
+    {
+      "chainId": 28,
+      "emitterAddress": "xpla137w0wfch2dfmz7jl2ap8pcmswasj8kg06ay4dtjzw7tzkn77ufxqfw7acv"
     }
   ]
 }
