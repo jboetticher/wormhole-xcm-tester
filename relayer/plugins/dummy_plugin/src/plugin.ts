@@ -106,16 +106,16 @@ export class DummyPlugin implements Plugin<WorkflowPayload> {
     execute: ActionExecutor,
   ): Promise<void> {
     this.logger.info("Got workflow", { workflowId: workflow.id });
-    this.logger.debug(JSON.stringify(workflow, undefined, 2));
+    this.logger.debug(JSON.stringify(workflow));
 
-    const { vaa, count } = this.parseWorkflowPayload(workflow);
+    const { vaa } = this.parseWorkflowPayload(workflow);
 
     // Dummy job illustrating how to run an action on the wallet worker pool
    await execute.onEVM({
       chainId: wh.CHAIN_ID_MOONBEAM,
       f: async (wallet, chainId) => {
-        const contract = new ethers.Contract("0x0000000000000000000000000000000000000816", abi, wallet.wallet);
-        const result = await contract.wormholeTransferERC20(vaa);
+        const gmpPrecompile = new ethers.Contract("0x0000000000000000000000000000000000000816", abi, wallet.wallet);
+        const result = await gmpPrecompile.wormholeTransferERC20(vaa);
         this.logger.info(result);
       },
     });
