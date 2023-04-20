@@ -19,11 +19,17 @@ You can also include the `--d` flag to specify the destination address or the `-
 
 # Run Relayer
 
-Doesn't relay for now, just prints out the VAA bytes in a hex format. Which you probably need.
+Will relay transactions that are directed to the GMP precompile. Still tracking an issue where sometimes the workflow gets messed up and nothing is relayed until the process is restarted.  
 
+Start the testnet spy. This is required.
 ```
 cd relayer
 yarn testnet-spy
+```
+
+Start relayer plugin.
+```
+cd relayer
 yarn redis
 yarn start
 ```
