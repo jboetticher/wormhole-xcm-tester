@@ -12,3 +12,5 @@ artifacts
 .DS_Store
 
 executor.json
+
+relayer/lib
